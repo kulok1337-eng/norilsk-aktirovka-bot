@@ -235,9 +235,19 @@ class Bot:
         logging.info("Сводка отправлена, режим %s", mode)
 
     # --- цикл ----------------------------------------------------------
+    def _interval(self):
+        now = datetime.now(cfg.NORILSK_TZ)
+        active = cfg.ACTIVE_FROM <= now.hour < cfg.ACTIVE_TO
+        interval = cfg.DAY_INTERVAL if active else cfg.NIGHT_INTERVAL
+        morning = now.replace(hour=cfg.ACTIVE_FROM, minute=0, second=0, microsecond=0)
+        if now < morning:
+            interval = min(interval, max(1, int((morning - now).total_seconds())))
+        return interval
+
     def run(self):
         me = self.api("getMe", {})
         logging.info("Бот @%s запущен. DRY_RUN=%s", me.get("username"), self.dry_run())
+        logging.info("Код: админ-панель v3, polling в основном цикле")
         logging.info("База: %s", str(Path(cfg.DATA_DIR).resolve() / "state.sqlite3"))
         if not self.admin_ids():
             raise RuntimeError("ADMIN_ID не задан")
@@ -245,7 +255,10 @@ class Bot:
         # Панель поднимаем до проверки канала: если канал недоступен,
         # администратор сможет исправить это командами /channel и /dry_run.
         self.panel = AdminPanel(self)
-        self.panel.start()
+        try:
+            self.panel.prepare()
+        except Exception as error:  # noqa: BLE001
+            logging.warning("Админ-панель: не удалось подготовить polling: %s", error)
 
         if not self.dry_run():
             try:
@@ -283,21 +296,30 @@ class Bot:
             )
             + "\n\nОткрой личку с ботом и отправь /start — там админ-панель.",
         )
+        logging.info("Админ-панель: ожидаю команды в личке @%s", me.get("username"))
+
+        next_check = 0.0
         while True:
+            if self.wake.is_set():
+                self.wake.clear()
+                next_check = 0.0
+
+            if next_check <= time.time() and not self.paused():
+                try:
+                    self.check()
+                except Exception as error:  # noqa: BLE001 - цикл не должен падать
+                    logging.exception("Ошибка цикла")
+                    self.notify(
+                        "cycle", "Ошибка проверки или отправки: " + str(error)[:500]
+                    )
+                next_check = time.time() + self._interval()
+                logging.info("Следующая проверка через %s секунд", self._interval())
+
             try:
-                self.check()
-            except Exception as error:  # noqa: BLE001 - цикл не должен падать
-                logging.exception("Ошибка цикла")
-                self.notify("cycle", "Ошибка проверки или отправки: " + str(error)[:500])
-            now = datetime.now(cfg.NORILSK_TZ)
-            active = cfg.ACTIVE_FROM <= now.hour < cfg.ACTIVE_TO
-            interval = cfg.DAY_INTERVAL if active else cfg.NIGHT_INTERVAL
-            morning = now.replace(hour=cfg.ACTIVE_FROM, minute=0, second=0, microsecond=0)
-            if now < morning:
-                interval = min(interval, max(1, int((morning - now).total_seconds())))
-            logging.info("Следующая проверка через %s секунд", interval)
-            self.wake.wait(interval)
-            self.wake.clear()
+                self.panel.poll_once(timeout=5)
+            except Exception as error:  # noqa: BLE001
+                logging.warning("Админ-панель: getUpdates: %s", error)
+                time.sleep(3)
 
 
 if __name__ == "__main__":

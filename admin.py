@@ -2,8 +2,6 @@
 import json
 import logging
 import re
-import threading
-import time
 from datetime import datetime
 
 import config as cfg
@@ -19,6 +17,7 @@ HELP_TEXT = (
     "/admins — список администраторов\n"
     "/add_admin <id> — добавить администратора\n"
     "/del_admin <id> — удалить администратора\n"
+    "/myid — показать ваш Telegram ID\n"
     "/help — эта справка"
 )
 
@@ -26,38 +25,33 @@ HELP_TEXT = (
 class AdminPanel:
     def __init__(self, bot):
         self.bot = bot
-        self.offset = int(bot.get("admin:offset") or 0)
-        self.thread = None
-
-    # --- запуск --------------------------------------------------------
-    def start(self):
-        self.thread = threading.Thread(target=self._poll, name="admin-panel", daemon=True)
-        self.thread.start()
-
-    def _poll(self):
         try:
-            self.bot.api("deleteWebhook", {"drop_pending_updates": False})
-        except Exception as error:  # noqa: BLE001
-            logging.warning("Админ-панель: webhook не отключён: %s", error)
+            self.offset = int(bot.get("admin:offset") or 0)
+        except (TypeError, ValueError):
+            self.offset = 0
 
-        while True:
-            payload = {"timeout": 25, "allowed_updates": ["message", "callback_query"]}
-            if self.offset:
-                payload["offset"] = self.offset
+    # --- long polling, вызывается из основного цикла -------------------
+    def prepare(self):
+        self.bot.api("deleteWebhook", {"drop_pending_updates": True})
+        self.offset = 0
+        self.bot.put("admin:offset", 0)
+        logging.info("Админ-панель: long polling запущен")
+
+    def poll_once(self, timeout=5):
+        payload = {"timeout": timeout, "allowed_updates": ["message", "callback_query"]}
+        if self.offset:
+            payload["offset"] = self.offset
+        updates = self.bot.api("getUpdates", payload)
+        if updates:
+            logging.info("Админ-панель: получено обновлений: %s", len(updates))
+        for update in updates:
+            self.offset = update["update_id"] + 1
+            self.bot.put("admin:offset", self.offset)
             try:
-                updates = self.bot.api("getUpdates", payload)
-            except Exception as error:  # noqa: BLE001
-                logging.warning("Админ-панель: getUpdates: %s", error)
-                time.sleep(5)
-                continue
-
-            for update in updates:
-                self.offset = update["update_id"] + 1
-                self.bot.put("admin:offset", self.offset)
-                try:
-                    self.handle(update)
-                except Exception:  # noqa: BLE001
-                    logging.exception("Админ-панель: ошибка обработки команды")
+                self.handle(update)
+            except Exception:  # noqa: BLE001
+                logging.exception("Админ-панель: ошибка обработки команды")
+        return len(updates)
 
     # --- разбор обновлений ---------------------------------------------
     def handle(self, update):
@@ -81,13 +75,18 @@ class AdminPanel:
         command = head[1:].split("@")[0].lower()
         args = args.strip()
         chat_id = chat.get("id")
-        is_admin = self._is_admin(message.get("from", {}).get("id"))
+        user_id = message.get("from", {}).get("id")
+        is_admin = self._is_admin(user_id)
+        logging.info("Админ-панель: /%s от %s", command, user_id)
 
         if command == "start":
             self._send_welcome(chat_id, is_admin)
             return
         if command == "help":
             self._send(chat_id, HELP_TEXT)
+            return
+        if command == "myid":
+            self._send(chat_id, f"Ваш Telegram ID: {user_id}")
             return
         if not is_admin:
             self._send(chat_id, "Управление ботом доступно только администратору.")
