@@ -87,11 +87,15 @@ class Bot:
         key = "notice:" + key
         if time.time() - float(self.get(key) or 0) < 21600:
             return
-        try:
-            self.send(cfg.ADMIN_ID, text)
+        delivered = False
+        for admin in cfg.ADMIN_IDS:
+            try:
+                self.send(admin, text)
+                delivered = True
+            except RuntimeError as error:
+                logging.error("Уведомление %s не доставлено: %s", admin, error)
+        if delivered:
             self.put(key, time.time())
-        except RuntimeError as error:
-            logging.error("Уведомление не доставлено: %s", error)
 
     # --- проверка ------------------------------------------------------
     def check(self):
@@ -144,7 +148,8 @@ class Bot:
                 )
 
         mode = "test" if cfg.DRY_RUN else "live"
-        key = f"report:{mode}:{cfg.CHANNEL_ID}:{today}:{chosen['shift']}"
+        channel_key = cfg.CHANNEL_ID or "test"
+        key = f"report:{mode}:{channel_key}:{today}:{chosen['shift']}"
         previous_raw = self.get(key)
         previous = json.loads(previous_raw) if previous_raw else None
         if previous and previous["official"] and not chosen["source"]["official"]:
@@ -161,14 +166,26 @@ class Bot:
             return
 
         text = format_report(chosen, updated=previous is not None)
-        target = cfg.ADMIN_ID if cfg.DRY_RUN else cfg.CHANNEL_ID
         if cfg.DRY_RUN:
             text = "ТЕСТ — в канал не отправлено\n\n" + text
-        result = self.send(target, text)
+            targets = cfg.ADMIN_IDS
+        else:
+            targets = [cfg.CHANNEL_ID]
+        message_id = None
+        delivered = False
+        for target in targets:
+            try:
+                result = self.send(target, text)
+                message_id = result.get("message_id", message_id)
+                delivered = True
+            except RuntimeError as error:
+                logging.error("Сводка не отправлена %s: %s", target, error)
+        if not delivered:
+            raise RuntimeError("Не удалось отправить сводку ни одному получателю")
         self.put(
             key,
             json.dumps(
-                {"digest": digest, "official": official, "message_id": result["message_id"]}
+                {"digest": digest, "official": official, "message_id": message_id}
             ),
         )
         logging.info("Сводка отправлена, режим %s", mode)
@@ -215,8 +232,10 @@ class Bot:
 
 
 if __name__ == "__main__":
-    if not cfg.BOT_TOKEN or not cfg.CHANNEL_ID or not cfg.ADMIN_ID:
-        raise SystemExit("Заполни BOT_TOKEN, CHANNEL_ID и ADMIN_ID в переменных хостинга")
+    if not cfg.BOT_TOKEN or not cfg.ADMIN_IDS:
+        raise SystemExit("Не задан BOT_TOKEN или ADMIN_ID")
+    if not cfg.DRY_RUN and not cfg.CHANNEL_ID:
+        raise SystemExit("Для публикации в канал задай CHANNEL_ID")
     if not 0 <= cfg.ACTIVE_FROM < cfg.ACTIVE_TO <= 23:
         raise SystemExit("Требуется 0 <= ACTIVE_FROM < ACTIVE_TO <= 23")
     if not cfg.SOURCES:
