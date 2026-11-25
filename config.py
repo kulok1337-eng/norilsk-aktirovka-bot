@@ -1,40 +1,18 @@
 import os
-
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "").strip()
-CHANNEL_ID = os.environ.get("CHANNEL_ID", "").strip()
-ADMIN_IDS = [
-    int(v)
-    for v in os.environ.get("ADMIN_IDS", "").replace(" ", ",").split(",")
-    if v.strip().isdigit()
-]
-ADMIN_ID = (
-    str(ADMIN_IDS[0]) if ADMIN_IDS else os.environ.get("ADMIN_ID", "").strip()
-)
-
-DRY_RUN = os.environ.get("DRY_RUN", "false").lower() == "true"
-NORILSK_TZ_OFFSET_HOURS = int(os.environ.get("NORILSK_TZ_OFFSET_HOURS", "7"))
-DAY_INTERVAL = int(os.environ.get("DAY_INTERVAL", "900"))
-NIGHT_INTERVAL = int(os.environ.get("NIGHT_INTERVAL", "3600"))
-ACTIVE_FROM = int(os.environ.get("ACTIVE_FROM", "5"))
-ACTIVE_TO = int(os.environ.get("ACTIVE_TO", "15"))
-DATA_DIR = os.environ.get("DATA_DIR", "./data")
-ACTIVE_HOURS = (ACTIVE_FROM, ACTIVE_TO)
-
-OFFICIAL_URL = os.environ.get(
-    "OFFICIAL_URL", "https://норильск.рф/weather/"
-)
-SECONDARY_URL = os.environ.get(
-    "SECONDARY_URL", "https://sgnorilsk.ru/pogoda/"
-)
-
+from datetime import timezone, timedelta
+BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
+CHANNEL_ID = os.getenv("CHANNEL_ID", "").strip()
+ADMIN_ID = os.getenv("ADMIN_ID", "").strip()
+DRY_RUN = os.getenv("DRY_RUN", "true").strip().lower() == "true"
+DAY_INTERVAL = max(60, int(os.getenv("DAY_INTERVAL", "900")))
+NIGHT_INTERVAL = max(60, int(os.getenv("NIGHT_INTERVAL", "3600")))
+ACTIVE_FROM = int(os.getenv("ACTIVE_FROM", "5"))
+ACTIVE_TO = int(os.getenv("ACTIVE_TO", "15"))
+DATA_DIR = os.getenv("DATA_DIR", "./data")
+NORILSK_TZ = timezone(timedelta(hours=7))
 SOURCES = [
-    {"name": "Официальный сайт Норильска", "url": OFFICIAL_URL},
-    {"name": "Северный город", "url": SECONDARY_URL},
-]
-
-DISTRICTS = [
-    ("Центральный район", r"центральн\w*\s+район"),
-    ("Оганер", r"(?:ж\s*/\s*о\s+)?оганер"),
-    ("Талнах", r"(?:район\s+)?талнах"),
-    ("Кайеркан", r"(?:район\s+)?кайеркан"),
+    {"name": "Официальный сайт Норильска", "official": True,
+     "url": os.getenv("OFFICIAL_URL", "https://xn--h1aecgfmj1g.xn--p1ai/weather/")},
+    {"name": "Северный город", "official": False,
+     "url": os.getenv("SECONDARY_URL", "https://sgnorilsk.ru/pogoda/")},
 ]

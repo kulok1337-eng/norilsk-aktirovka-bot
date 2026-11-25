@@ -1,99 +1,149 @@
-"""Разбор страницы «Погода и сообщения ГОиЧС»: дата, смена, районы."""
-
 import re
 from datetime import datetime
+from urllib.parse import urlsplit, urlunsplit
 
 import requests
+import urllib3
 from bs4 import BeautifulSoup
 
 from config import DISTRICTS
 
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-def normalize(text):
-    return re.sub(r"\s+", " ", text.replace("\xa0", " ")).strip()
+BROWSER_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/130.0.0.0 Safari/537.36"
+    ),
+    "Accept-Language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
+}
+
+STOP_MARKERS = (
+    "ИНФОРМАЦИЯ О ПОГОДЕ",
+    "ВОЗОБНОВЛЕН СВОБОДНЫЙ ДОСТУП",
+    "СОСТОЯНИЕ АВТОДОРОГ",
+)
 
 
-def parse_page(html, source):
-    soup = BeautifulSoup(html, "html.parser")
-    for tag in soup(["script", "style", "noscript"]):
+def to_punycode_url(url: str) -> str:
+    parts = urlsplit(url)
+    if not parts.hostname:
+        return url
+    host = parts.hostname.encode("idna").decode("ascii")
+    netloc = f"{host}:{parts.port}" if parts.port else host
+    return urlunsplit((parts.scheme, netloc, parts.path, parts.query, parts.fragment))
+
+
+def extract_clean_lines(box) -> list[str]:
+    for tag in box(["script", "style", "noscript"]):
         tag.decompose()
 
-    text = normalize(soup.get_text(" ", strip=True))
+    for br in box.find_all("br"):
+        br.replace_with("\n")
 
-    start = re.search(r"информация\s+об\s+актировках", text, re.I)
-    if not start:
-        raise ValueError("Не найден заголовок блока об актировках")
+    for td in box.find_all(["td", "th"]):
+        td.append(" | ")
 
-    remainder = text[start.end():]
-    end = re.search(r"информация\s+о\s+погоде", remainder, re.I)
-    if not end:
-        raise ValueError("Не найдена граница блока об актировках")
+    for block in box.find_all(["p", "div", "tr", "li", "h1", "h2", "h3", "h4", "table"]):
+        if block.name in ("p", "div") and block.find_parent(["td", "th"]):
+            continue
+        block.insert_before("\n")
+        block.append("\n")
 
-    block = remainder[:end.start()]
+    raw_text = box.get_text().replace("\xa0", " ")
+    lines = []
+    for line in raw_text.splitlines():
+        clean = re.sub(r"\s+", " ", line).strip().strip("|").strip()
+        if clean:
+            lines.append(clean)
+    return lines
 
-    dates = re.findall(r"\b\d{2}\.\d{2}\.\d{4}\b", block)
-    if not dates:
-        # Дата может идти раньше заголовка; берём ближайшую до него.
-        before = text[:start.start()]
-        dates = re.findall(r"\b\d{2}\.\d{2}\.\d{4}\b", before)[-1:]
-    if not dates:
+
+def parse_page(html: str, source: dict) -> dict:
+    soup = BeautifulSoup(html, "html.parser")
+    box = soup.select_one("div.white-box.padding-box") or soup.body or soup
+    lines = extract_clean_lines(box)
+
+    start_idx = next(
+        (i for i, line in enumerate(lines) if "ИНФОРМАЦИЯ ОБ АКТИРОВКАХ" in line.upper()),
+        None,
+    )
+    if start_idx is None:
+        raise ValueError("Не найден заголовок блока «ИНФОРМАЦИЯ ОБ АКТИРОВКАХ»")
+
+    section_lines = []
+    for line in lines[start_idx + 1 :]:
+        if any(marker in line.upper() for marker in STOP_MARKERS):
+            break
+        section_lines.append(line)
+
+    if not section_lines:
+        raise ValueError("Блок с актировками пуст")
+
+    section_text = " ".join(section_lines)
+
+    date_match = re.search(r"\b(\d{2}\.\d{2}\.\d{4})\b", section_text)
+    if not date_match:
+        before_text = " ".join(lines[max(0, start_idx - 3) : start_idx])
+        before_dates = re.findall(r"\b(\d{2}\.\d{2}\.\d{4})\b", before_text)
+        date_str = before_dates[-1] if before_dates else None
+    else:
+        date_str = date_match.group(1)
+
+    if not date_str:
         raise ValueError("В решении не найдена дата")
 
-    parsed_dates = {
-        datetime.strptime(value, "%d.%m.%Y").date() for value in dates
-    }
-
-    if len(parsed_dates) != 1:
-        raise ValueError("В блоке разные даты: нужна ручная проверка")
-
-    decision_date = parsed_dates.pop()
+    decision_date = datetime.strptime(date_str, "%d.%m.%Y").date()
 
     shift_match = re.search(
         r"\b([12])\s*(?:[-–—]\s*)?(?:ой|й|ая|я|ую|ю)?\s*смен",
-        block,
+        section_text,
         re.I,
     )
     if not shift_match:
         raise ValueError("Не удалось определить смену")
 
-    candidate_tables = []
-    for table in soup.find_all("table"):
-        table_text = normalize(table.get_text(" ", strip=True))
-        if (
-            table_text
-            and table_text in block
-            and all(
-                re.search(pattern, table_text, re.I)
-                for _, pattern in DISTRICTS
-            )
-        ):
-            candidate_tables.append(table)
-
-    if len(candidate_tables) != 1:
-        raise ValueError("Не найдена однозначная таблица четырёх районов")
-
     districts = {}
+    i = 0
+    while i < len(section_lines):
+        line = section_lines[i]
 
-    for row in candidate_tables[0].find_all("tr"):
-        cells = row.find_all(["td", "th"], recursive=False)
-        if len(cells) < 2:
+        if "|" in line:
+            left, right = [part.strip() for part in line.split("|", 1)]
+            for name, pattern in DISTRICTS:
+                if re.search(pattern, left, re.I):
+                    if not right or len(right) > 100:
+                        raise ValueError(f"Необычное значение района: {name}")
+                    districts[name] = right
+                    break
+            i += 1
             continue
 
-        label = normalize(cells[0].get_text(" ", strip=True))
-        value = normalize(
-            " ".join(cell.get_text(" ", strip=True) for cell in cells[1:])
-        )
-
+        matched_name = None
+        matched_obj = None
         for name, pattern in DISTRICTS:
-            if re.search(pattern, label, re.I):
-                if name in districts:
-                    raise ValueError(f"Повтор района: {name}")
-                if not value or len(value) > 100:
-                    raise ValueError(f"Необычное значение района: {name}")
-                districts[name] = value
+            m = re.match(pattern, line, re.I)
+            if m:
+                matched_name = name
+                matched_obj = m
+                break
 
-    if len(districts) != 4:
-        raise ValueError("Не удалось получить данные всех четырёх районов")
+        if matched_name:
+            tail = line[matched_obj.end() :].strip(" :—–-|")
+            if tail and len(tail) <= 100:
+                districts[matched_name] = tail
+            elif i + 1 < len(section_lines):
+                val = section_lines[i + 1].strip()
+                if val and len(val) <= 100:
+                    districts[matched_name] = val
+                i += 1
+
+        i += 1
+
+    if len(districts) != len(DISTRICTS):
+        missing = [name for name, _ in DISTRICTS if name not in districts]
+        raise ValueError(f"Не удалось получить данные всех районов (нет: {', '.join(missing)})")
 
     return {
         "date": decision_date.isoformat(),
@@ -103,9 +153,13 @@ def parse_page(html, source):
     }
 
 
-def load_source(session, source):
-    response = session.get(source["url"], timeout=(5, 10))
-    response.raise_for_status()
+def load_source(session: requests.Session, source: dict) -> dict:
+    url = to_punycode_url(source["url"])
+    try:
+        resp = session.get(url, headers=BROWSER_HEADERS, timeout=(10, 20))
+    except requests.exceptions.SSLError:
+        resp = session.get(url, headers=BROWSER_HEADERS, timeout=(10, 20), verify=False)
 
-    # Используем разбор BeautifulSoup по умолчанию, чтобы учесть кодировку.
-    return parse_page(str(BeautifulSoup(response.content, "html.parser")), source)
+    resp.raise_for_status()
+    resp.encoding = resp.apparent_encoding or "utf-8"
+    return parse_page(resp.text, source)

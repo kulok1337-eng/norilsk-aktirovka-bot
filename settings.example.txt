@@ -1,0 +1,13 @@
+Пример переменных для панели BotHost. Этот файл сам не загружается программой.
+BOT_TOKEN=ВСТАВЬ_ТОКЕН_ТОЛЬКО_В_ПАНЕЛИ
+CHANNEL_ID=@username_канала
+ADMIN_ID=ТВОЙ_ЧИСЛОВОЙ_ID
+DRY_RUN=true
+DAY_INTERVAL=900
+NIGHT_INTERVAL=3600
+ACTIVE_FROM=5
+ACTIVE_TO=15
+DATA_DIR=./data
+
+Для DATA_DIR укажи реальный постоянный каталог хостинга.
+./data — значение по умолчанию, не гарантия сохранения при пересборке.
