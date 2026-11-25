@@ -1,0 +1,724 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(97171419, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/97171419" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+	<title>Погода и сообщения ГОиЧС</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="/bitrix/templates/gos_modern_blue_s1/favicon.png">
+	<script data-skip-moving="true">
+		function loadFont(t,e,n,o){function a(){if(!window.FontFace)return!1;var t=new FontFace("t",'url("data:application/font-woff2,") format("woff2")',{}),e=t.load();try{e.then(null,function(){})}catch(n){}return"loading"===t.status}var r=navigator.userAgent,s=!window.addEventListener||r.match(/(Android (2|3|4.0|4.1|4.2|4.3))|(Opera (Mini|Mobi))/)&&!r.match(/Chrome/);if(!s){var i={};try{i=localStorage||{}}catch(c){}var d="x-font-"+t,l=d+"url",u=d+"css",f=i[l],h=i[u],p=document.createElement("style");if(p.rel="stylesheet",document.head.appendChild(p),!h||f!==e&&f!==n){var w=n&&a()?n:e,m=new XMLHttpRequest;m.open("GET",w),m.onload=function(){m.status>=200&&m.status<400&&(i[l]=w,i[u]=m.responseText,o||(p.textContent=m.responseText))},m.send()}else p.textContent=h}}
+
+		loadFont('OpenSans', '/bitrix/templates/gos_modern_blue_s1/opensans.css', '/bitrix/templates/gos_modern_blue_s1/opensans-woff2.css');
+	</script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="description" content="Погода и сообщения ГОиЧС" />
+<link href="/bitrix/cache/css/s1/gos_modern_blue_s1/template_477840e19906ea8c14f0e89610c331c9/template_477840e19906ea8c14f0e89610c331c9_v1.css?1783526185239920" type="text/css" rel="stylesheet" data-template-style="true"/>
+<script>if(!window.BX)window.BX={};if(!window.BX.message)window.BX.message=function(mess){if(typeof mess==='object'){for(let i in mess) {BX.message[i]=mess[i];} return true;}};</script>
+<script>(window.BX||top.BX).message({"JS_CORE_LOADING":"Загрузка...","JS_CORE_NO_DATA":"- Нет данных -","JS_CORE_WINDOW_CLOSE":"Закрыть","JS_CORE_WINDOW_EXPAND":"Развернуть","JS_CORE_WINDOW_NARROW":"Свернуть в окно","JS_CORE_WINDOW_SAVE":"Сохранить","JS_CORE_WINDOW_CANCEL":"Отменить","JS_CORE_WINDOW_CONTINUE":"Продолжить","JS_CORE_H":"ч","JS_CORE_M":"м","JS_CORE_S":"с","JSADM_AI_HIDE_EXTRA":"Скрыть лишние","JSADM_AI_ALL_NOTIF":"Показать все","JSADM_AUTH_REQ":"Требуется авторизация!","JS_CORE_WINDOW_AUTH":"Войти","JS_CORE_IMAGE_FULL":"Полный размер"});</script>
+
+<script src="/bitrix/js/main/core/core.min.js?1771309518245648"></script>
+
+<script>BX.Runtime.registerExtension({"name":"main.core","namespace":"BX","loaded":true});</script>
+<script>BX.setJSList(["\/bitrix\/js\/main\/core\/core_ajax.js","\/bitrix\/js\/main\/core\/core_promise.js","\/bitrix\/js\/main\/polyfill\/promise\/js\/promise.js","\/bitrix\/js\/main\/loadext\/loadext.js","\/bitrix\/js\/main\/loadext\/extension.js","\/bitrix\/js\/main\/polyfill\/promise\/js\/promise.js","\/bitrix\/js\/main\/polyfill\/find\/js\/find.js","\/bitrix\/js\/main\/polyfill\/includes\/js\/includes.js","\/bitrix\/js\/main\/polyfill\/matches\/js\/matches.js","\/bitrix\/js\/ui\/polyfill\/closest\/js\/closest.js","\/bitrix\/js\/main\/polyfill\/fill\/main.polyfill.fill.js","\/bitrix\/js\/main\/polyfill\/find\/js\/find.js","\/bitrix\/js\/main\/polyfill\/matches\/js\/matches.js","\/bitrix\/js\/main\/polyfill\/core\/dist\/polyfill.bundle.js","\/bitrix\/js\/main\/core\/core.js","\/bitrix\/js\/main\/polyfill\/intersectionobserver\/js\/intersectionobserver.js","\/bitrix\/js\/main\/lazyload\/dist\/lazyload.bundle.js","\/bitrix\/js\/main\/polyfill\/core\/dist\/polyfill.bundle.js","\/bitrix\/js\/main\/parambag\/dist\/parambag.bundle.js"]);
+</script>
+<script>BX.Runtime.registerExtension({"name":"pull.protobuf","namespace":"BX","loaded":true});</script>
+<script>BX.Runtime.registerExtension({"name":"rest.client","namespace":"window","loaded":true});</script>
+<script>(window.BX||top.BX).message({"pull_server_enabled":"N","pull_config_timestamp":0,"shared_worker_allowed":"Y","pull_guest_mode":"N","pull_guest_user_id":0,"pull_worker_mtime":1771307762});(window.BX||top.BX).message({"PULL_OLD_REVISION":"Для продолжения корректной работы с сайтом необходимо перезагрузить страницу."});</script>
+<script>BX.Runtime.registerExtension({"name":"pull.client","namespace":"BX","loaded":true});</script>
+<script>BX.Runtime.registerExtension({"name":"pull","namespace":"window","loaded":true});</script>
+<script>(window.BX||top.BX).message({"LANGUAGE_ID":"ru","FORMAT_DATE":"DD.MM.YYYY","FORMAT_DATETIME":"DD.MM.YYYY HH:MI:SS","COOKIE_PREFIX":"BITRIX_SM","SERVER_TZ_OFFSET":"10800","UTF_MODE":"Y","SITE_ID":"s1","SITE_DIR":"\/","USER_ID":"","SERVER_TIME":1786020913,"USER_TZ_OFFSET":14400,"USER_TZ_AUTO":"Y","bitrix_sessid":"de605c4b70d2fdcae6fc06374eeb72b9"});</script>
+
+
+<script src="/bitrix/js/pull/protobuf/protobuf.js?1745143016274055"></script>
+<script src="/bitrix/js/pull/protobuf/model.min.js?174514301614190"></script>
+<script src="/bitrix/js/rest/client/rest.client.min.js?17451430079240"></script>
+<script src="/bitrix/js/pull/client/pull.client.min.js?177130776449849"></script>
+<script>BX.setJSList(["\/bitrix\/templates\/gos_modern_blue_s1\/js\/-jquery.min.js","\/bitrix\/templates\/gos_modern_blue_s1\/js\/js.cookie.min.js","\/bitrix\/templates\/gos_modern_blue_s1\/js\/jquery.shorten.js","\/bitrix\/templates\/gos_modern_blue_s1\/js\/jquery.formstyler.min.js","\/bitrix\/templates\/gos_modern_blue_s1\/js\/jquery.matchHeight-min.js","\/bitrix\/templates\/gos_modern_blue_s1\/js\/jquery.mobileNav.min.js","\/bitrix\/templates\/gos_modern_blue_s1\/js\/jquery.tabsToSelect.min.js","\/bitrix\/templates\/gos_modern_blue_s1\/js\/jquery.maskedinput.min.js","\/bitrix\/templates\/gos_modern_blue_s1\/js\/owl.carousel.min.js","\/bitrix\/templates\/gos_modern_blue_s1\/js\/perfect-scrollbar.jquery.min.js","\/bitrix\/templates\/gos_modern_blue_s1\/js\/responsive-tables.js","\/bitrix\/templates\/gos_modern_blue_s1\/js\/special_version.js","\/bitrix\/templates\/gos_modern_blue_s1\/js\/main.js","\/bitrix\/templates\/gos_modern_blue_s1\/js\/imask.js","\/bitrix\/templates\/gos_modern_blue_s1\/molly\/molly.js","\/bitrix\/components\/bitrix\/search.title\/script.js"]);</script>
+<script>BX.setCSSList(["\/bitrix\/templates\/gos_modern_blue_s1\/special_version.css","\/bitrix\/templates\/gos_modern_blue_s1\/fonts\/stylesheet.css","\/bitrix\/templates\/gos_modern_blue_s1\/styles.css","\/bitrix\/templates\/gos_modern_blue_s1\/template_styles.css"]);</script>
+<script>
+					if (Intl && Intl.DateTimeFormat)
+					{
+						const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+						document.cookie = "BITRIX_SM_TZ=" + timezone + "; path=/; expires=Sun, 01 Aug 2027 00:00:00 +0300";
+						
+					}
+				</script>
+<script>
+					(function () {
+						"use strict";
+
+						var counter = function ()
+						{
+							var cookie = (function (name) {
+								var parts = ("; " + document.cookie).split("; " + name + "=");
+								if (parts.length == 2) {
+									try {return JSON.parse(decodeURIComponent(parts.pop().split(";").shift()));}
+									catch (e) {}
+								}
+							})("BITRIX_CONVERSION_CONTEXT_s1");
+
+							if (cookie && cookie.EXPIRE >= BX.message("SERVER_TIME"))
+								return;
+
+							var request = new XMLHttpRequest();
+							request.open("POST", "/bitrix/tools/conversion/ajax_counter.php", true);
+							request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+							request.send(
+								"SITE_ID="+encodeURIComponent("s1")+
+								"&sessid="+encodeURIComponent(BX.bitrix_sessid())+
+								"&HTTP_REFERER="+encodeURIComponent(document.referrer)
+							);
+						};
+
+						if (window.frameRequestStart === true)
+							BX.addCustomEvent("onFrameDataReceived", counter);
+						else
+							BX.ready(counter);
+					})();
+				</script>
+
+
+
+<script  src="/bitrix/cache/js/s1/gos_modern_blue_s1/template_41578fde3e4c1262452bd7f3c0247066/template_41578fde3e4c1262452bd7f3c0247066_v1.js?1783517634340124"></script>
+<script>new Image().src='https://norilsk-city.ru/bitrix/spread.php?s=QklUUklYX1NNX0dVRVNUX0lEATEwODc0NDczATE4MTcxMjQ5MTMBLwEBAQJCSVRSSVhfU01fTEFTVF9WSVNJVAEwNi4wOC4yMDI2IDE1OjU1OjEzATE4MTcxMjQ5MTMBLwEBAQI.1786020973.b50ec62a6ec16cd8d5ad204b6813d382784bf91b166e8cc8542c29cabfc8c838';
+new Image().src='https://норильск.рф/bitrix/spread.php?s=QklUUklYX1NNX0dVRVNUX0lEATEwODc0NDczATE4MTcxMjQ5MTMBLwEBAQJCSVRSSVhfU01fTEFTVF9WSVNJVAEwNi4wOC4yMDI2IDE1OjU1OjEzATE4MTcxMjQ5MTMBLwEBAQI.1786020973.b50ec62a6ec16cd8d5ad204b6813d382784bf91b166e8cc8542c29cabfc8c838';
+</script>
+
+
+</head>
+
+<body>
+<div class="mb-hide admin__panel_fixed"></div>
+<div class="body-wrapper clearfix">
+    <div class="special-settings">
+        <div class="container special-panel-container">
+            <div class="content">
+                <div class="aa-block aaFontsize">
+                    <div class="fl-l">Размер:</div>
+                    <a class="aaFontsize-small" data-aa-fontsize="small" href="#" title="Уменьшенный размер шрифта">A</a><!--
+				 --><a class="aaFontsize-normal a-current" href="#" data-aa-fontsize="normal" title="Нормальный размер шрифта">A</a><!--
+				 --><a class="aaFontsize-big" data-aa-fontsize="big" href="#" title="Увеличенный размер шрифта">A</a>
+                </div>
+                <div class="aa-block aaColor">
+                    Цвет:
+                    <a class="aaColor-black a-current" data-aa-color="black" href="#" title="Черным по белому"><span>C</span></a><!--
+				 --><a class="aaColor-yellow" data-aa-color="yellow" href="#" title="Желтым по черному"><span>C</span></a><!--
+				 --><a class="aaColor-blue" data-aa-color="blue" href="#" title="Синим по голубому"><span>C</span></a>
+                </div>
+
+                <div class="aa-block aaImage">
+                    Изображения
+				<span class="aaImage-wrapper">
+					<a class="aaImage-on a-current" data-aa-image="on" href="#">Вкл.</a><!--
+					 --><a class="aaImage-off" data-aa-image="off" href="#">Выкл.</a>
+				</span>
+                </div>
+                <span class="aa-block"><a href="/?set-aa=normal" data-aa-off><i class="icon icon-special-version"></i> Обычная версия сайта</a></span>
+            </div>
+        </div> <!-- .container special-panel-container -->
+    </div> <!-- .special-settings -->
+
+	<header>
+		<div class="container container-top-header">
+			<div class="content">
+
+				</div> <!-- .content -->
+			</div> <!-- .container container-top-header -->
+			
+		<div class="container container-white pt30">
+			<div class="content">
+				<div class="col col-mb-12 col-dt-6 col-margin-bottom">
+                    <a href="/" class="logo">
+                        <img src="/upload/coats/user/logo1.png" />
+                        Официальный сайт<br>города Норильска                    </a>
+				</div> <!-- .col col-mb-12 col-dt-6 col-margin-bottom -->
+				<div class="container container-top-header">
+					<!--div class="col col-mb-hide col-6 col-dt-5 col-ld-5">
+									</div-->
+
+				<div class="col col-mb-10 col-6 col-dt-6">
+					<div class="top-header-right-side">
+						<!--div class="aa-hide" itemprop="Copy">
+							<a class="fl-r top-header-link ta-center" href="/?set-aa=special" data-aa-on>
+								<i class="icon icon-special-version"></i>
+							</a>
+						</div>
+						<div class="aa-hide" itemprop="Copy">
+							<a class="fl-r top-header-link ta-center" href="/?set-aa=special" data-aa-on>
+								<i class="icon icon-special-version"></i>
+							</a>
+						</div-->
+
+						<div class="aa-hide" itemprop="Copy">																										 
+							<a class="fl-r top-header-link ta-center" href="/weather/" target="_blank">
+								<i class="icon icon-tb"></i>
+							</a>
+						</div>
+						<div class="aa-hide" itemprop="Copy">																										 
+							<a class="fl-r top-header-link ta-center" href="/other_information/air_monitoring.php" target="_blank">
+								<i class="icon icon-ma"></i>
+							</a>
+						</div>
+						<div class="aa-hide" itemprop="Copy">																										 
+							<a class="fl-r top-header-link ta-center" href="https://vk.com/norilsk_adm" target="_blank">
+								<i class="icon icon-vk"></i>
+							</a>
+						</div>
+						<div class="aa-hide" itemprop="Copy">
+							<a class="fl-r top-header-link ta-center" href="https://max.ru/join/xDeYiGu6vwRnfMcUkzcb-P5ebTJtvCWlVUlGo8erdLc" target="_blank">
+								<i class="icon icon-max"></i>
+							</a>
+						</div>
+						<div class="aa-hide" itemprop="Copy">
+							<a class="fl-r top-header-link ta-center" href="https://rutube.ru/channel/25582803" target="_blank">
+								<i class="icon icon-yt"></i>
+							</a>
+						</div>
+						<div class="search-block fl-r">
+							<div class="search-button"><i class="icon icon-search-black"></i> <span class="col-mb-hide col-hide col-dt-hide">Поиск</span></div>
+                            
+<div class="container container-search">
+    <div class="content">
+        <div class="col col-mb-12" id="searchTitle">
+	        <form action="/search/index.php">
+                <div class="search-form-block">
+                    <a href="#" onclick="this.closest('form').submit(); return false;"><i class="icon icon-search-white"></i></a>
+                    <div class="search-close-button"><i class="icon icon-close"></i></div>
+                    <div class="ov-h">
+                        <input id="title-search-input" class="search-input" type="text" name="q" autocomplete="off">
+                    </div>
+                </div>
+            </form>
+            <div class="search-suggestions">
+                <a href="#" class="btn btn-cta">Все результаты</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+function JCTitleSearchModern(arParams)
+{
+	var _this = this;
+
+	this.arParams = {
+		'AJAX_PAGE': arParams.AJAX_PAGE,
+		'CONTAINER_ID': arParams.CONTAINER_ID,
+		'INPUT_ID': arParams.INPUT_ID,
+		'MIN_QUERY_LEN': parseInt(arParams.MIN_QUERY_LEN)
+	};
+	if(arParams.WAIT_IMAGE)
+		this.arParams.WAIT_IMAGE = arParams.WAIT_IMAGE;
+	if(arParams.MIN_QUERY_LEN <= 0)
+		arParams.MIN_QUERY_LEN = 1;
+
+	this.cache = [];
+	this.cache_key = null;
+
+	this.startText = '';
+	this.currentRow = -1;
+	this.RESULT = null;
+	this.CONTAINER = null;
+	this.INPUT = null;
+	this.WAIT = null;
+
+	this.ShowResult = function(result)
+	{
+		var suggestions = document.getElementsByClassName('search-suggestions');
+		suggestions[0].innerHTML = result;
+	}
+
+	this.onKeyPress = function(keyCode)
+	{
+		var tbl = BX.findChild(_this.RESULT, {'tag':'div','class':'search-result'}, true);
+		if(!tbl)
+			return false;
+
+		var cnt = tbl.rows.length;
+
+		switch (keyCode)
+		{
+			case 27: // escape key - close search div
+				_this.RESULT.style.display = 'none';
+				_this.currentRow = -1;
+				_this.UnSelectAll();
+				return true;
+
+			case 40: // down key - navigate down on search results
+				if(_this.RESULT.style.display == 'none')
+					_this.RESULT.style.display = 'block';
+
+				var first = -1;
+				for(var i = 0; i < cnt; i++)
+				{
+					if(!BX.findChild(tbl.rows[i], {'class':'title-search-separator'}, true))
+					{
+						if(first == -1)
+							first = i;
+
+						if(_this.currentRow < i)
+						{
+							_this.currentRow = i;
+							break;
+						}
+						else if(tbl.rows[i].className == 'title-search-selected')
+						{
+							tbl.rows[i].className = '';
+						}
+					}
+				}
+
+				if(i == cnt && _this.currentRow != i)
+					_this.currentRow = first;
+
+				tbl.rows[_this.currentRow].className = 'title-search-selected';
+				return true;
+
+			case 38: // up key - navigate up on search results
+				if(_this.RESULT.style.display == 'none')
+					_this.RESULT.style.display = 'block';
+
+				var last = -1;
+				for(var i = cnt-1; i >= 0; i--)
+				{
+					if(!BX.findChild(tbl.rows[i], {'class':'title-search-separator'}, true))
+					{
+						if(last == -1)
+							last = i;
+
+						if(_this.currentRow > i)
+						{
+							_this.currentRow = i;
+							break;
+						}
+						else if(tbl.rows[i].className == 'title-search-selected')
+						{
+							tbl.rows[i].className = '';
+						}
+					}
+				}
+
+				if(i < 0 && _this.currentRow != i)
+					_this.currentRow = last;
+
+				tbl.rows[_this.currentRow].className = 'title-search-selected';
+				return true;
+
+			case 13: // enter key - choose current search result
+				if(_this.RESULT.style.display == 'block')
+				{
+					for(var i = 0; i < cnt; i++)
+					{
+						if(_this.currentRow == i)
+						{
+							if(!BX.findChild(tbl.rows[i], {'class':'title-search-separator'}, true))
+							{
+								var a = BX.findChild(tbl.rows[i], {'tag':'a'}, true);
+								if(a)
+								{
+									window.location = a.href;
+									return true;
+								}
+							}
+						}
+					}
+				}
+				return false;
+		}
+
+		return false;
+	}
+
+	this.onTimeout = function()
+	{
+		_this.onChange(function(){
+			setTimeout(_this.onTimeout, 500);
+		});
+	}
+
+	this.onChange = function(callback)
+	{
+		if(_this.INPUT.value != _this.oldValue && _this.INPUT.value != _this.startText)
+		{
+			_this.oldValue = _this.INPUT.value;
+			if(_this.INPUT.value.length >= _this.arParams.MIN_QUERY_LEN)
+			{
+				_this.cache_key = _this.arParams.INPUT_ID + '|' + _this.INPUT.value;
+				if(_this.cache[_this.cache_key] == null)
+				{
+					if(_this.WAIT)
+					{
+						var pos = BX.pos(_this.INPUT);
+						var height = (pos.bottom - pos.top)-2;
+						_this.WAIT.style.top = (pos.top+1) + 'px';
+						_this.WAIT.style.height = height + 'px';
+						_this.WAIT.style.width = height + 'px';
+						_this.WAIT.style.left = (pos.right - height + 2) + 'px';
+						_this.WAIT.style.display = 'block';
+					}
+
+					BX.ajax.post(
+						_this.arParams.AJAX_PAGE,
+						{
+							'ajax_call':'y',
+							'INPUT_ID':_this.arParams.INPUT_ID,
+							'q':_this.INPUT.value,
+							'l':_this.arParams.MIN_QUERY_LEN
+						},
+						function(result)
+						{
+							_this.cache[_this.cache_key] = result;
+							_this.ShowResult(result);
+							_this.currentRow = -1;
+							_this.EnableMouseEvents();
+							if(_this.WAIT)
+								_this.WAIT.style.display = 'none';
+							if (!!callback)
+								callback();
+						}
+					);
+					return;
+				}
+				else
+				{
+					_this.ShowResult(_this.cache[_this.cache_key]);
+					_this.currentRow = -1;
+					_this.EnableMouseEvents();
+				}
+			}
+			else
+			{
+				_this.RESULT.style.display = 'none';
+				_this.currentRow = -1;
+				_this.UnSelectAll();
+			}
+		}
+		if (!!callback)
+			callback();
+	}
+
+	this.UnSelectAll = function()
+	{
+		var tbl = BX.findChild(_this.RESULT, {'tag':'div','class':'search-result'}, true);
+		if(tbl)
+		{
+			var cnt = tbl.rows.length;
+			for(var i = 0; i < cnt; i++)
+				tbl.rows[i].className = '';
+		}
+	}
+
+	this.EnableMouseEvents = function()
+	{
+		var tbl = BX.findChild(_this.RESULT, {'tag':'div','class':'search-result'}, true);
+		if(tbl)
+		{
+			var cnt = tbl.rows.length;
+			for(var i = 0; i < cnt; i++)
+				if(!BX.findChild(tbl.rows[i], {'class':'title-search-separator'}, true))
+				{
+					tbl.rows[i].id = 'row_' + i;
+					tbl.rows[i].onmouseover = function (e) {
+						if(_this.currentRow != this.id.substr(4))
+						{
+							_this.UnSelectAll();
+							this.className = 'title-search-selected';
+							_this.currentRow = this.id.substr(4);
+						}
+					};
+					tbl.rows[i].onmouseout = function (e) {
+						this.className = '';
+						_this.currentRow = -1;
+					};
+				}
+		}
+	}
+
+	this.onFocusLost = function(hide)
+	{
+		setTimeout(function(){_this.RESULT.style.display = 'none';}, 250);
+	}
+
+	this.onFocusGain = function()
+	{
+		if(_this.RESULT.innerHTML.length)
+			_this.ShowResult();
+	}
+
+	this.onKeyDown = function(e)
+	{
+		if(!e)
+			e = window.event;
+
+		if (_this.RESULT.style.display == 'block')
+		{
+			if(_this.onKeyPress(e.keyCode))
+				return BX.PreventDefault(e);
+		}
+	}
+
+	this.Init = function()
+	{
+		this.CONTAINER = document.getElementById(this.arParams.CONTAINER_ID);
+		this.RESULT = document.body.appendChild(document.createElement("DIV"));
+		this.RESULT.className = 'search-suggestions';
+		this.INPUT = document.getElementById(this.arParams.INPUT_ID);
+		this.startText = this.oldValue = this.INPUT.value;
+		BX.bind(this.INPUT, 'focus', function() {_this.onFocusGain()});
+		BX.bind(this.INPUT, 'blur', function() {_this.onFocusLost()});
+
+		if(BX.browser.IsSafari() || BX.browser.IsIE())
+			this.INPUT.onkeydown = this.onKeyDown;
+		else
+			this.INPUT.onkeypress = this.onKeyDown;
+
+		if(this.arParams.WAIT_IMAGE)
+		{
+			this.WAIT = document.body.appendChild(document.createElement("DIV"));
+			this.WAIT.style.backgroundImage = "url('" + this.arParams.WAIT_IMAGE + "')";
+			if(!BX.browser.IsIE())
+				this.WAIT.style.backgroundRepeat = 'none';
+			this.WAIT.style.display = 'none';
+			this.WAIT.style.position = 'absolute';
+			this.WAIT.style.zIndex = '1100';
+		}
+
+		BX.bind(this.INPUT, 'bxchange', function() {_this.onChange()});
+	}
+
+	BX.ready(function (){_this.Init(arParams)});
+}
+
+	BX.ready(function(){
+		new JCTitleSearchModern({
+			'AJAX_PAGE' : '/weather/',
+			'CONTAINER_ID': 'searchTitle',
+			'INPUT_ID': 'title-search-input',
+			'MIN_QUERY_LEN': 2
+		});
+	});
+</script>
+						</div>
+
+				<div class="col">
+                    <!--'start_frame_cache_auth-area'-->                        <a class="top-header-link-esia" href="/auth/"><i class="icon icon-lk"></i><span class="col-mb-hide col-hide col-dt-hide"> Войти</span></a>
+					    <!--'end_frame_cache_auth-area'-->					</div>
+					</div>
+				 <!-- .col col-mb-7 col-2 col-dt-2 -->
+
+					</div>
+				</div>
+	
+				<!--div class="col col-mb-12 col-6 col-dt-4 mt10 col-margin-bottom" style="text-align:right;color:black;">
+                    <b>663300, Красноярский край, <br>г. Норильск, Ленинский проспект, 24а</b><small class="text-light"></small>
+				</div--> <!-- .col col-mb-12 col-6 col-dt-3 mt10 col-margin-bottom -->
+				<!--div class="col col-mb-12 col-6 col-dt-2 mt10 col-margin-bottom" style="text-align:right;color:black;">
+                    <b><img width="300" src="/images/hantaika_2.jpg" height="175"><br></b><br><small class="text-light"></small>
+					</div>
+					
+				</div--> <!-- .col col-mb-12 col-6 col-dt-3 mt10 col-margin-bottom -->
+			</div> <!-- .content -->
+		</div> <!-- .container container-white pt10 -->
+		<div class="container container-top-navigation">
+			<div class="content">
+				<div class="col col-mb-hide col-12">
+					<div class="top-nav-block">
+                            <ul>
+                                                <li class="parent">
+                    <a tabindex="1" href="/city/">Город</a>
+                    <div class="second-level container">
+                        <div class="content">
+                            <div class="col col-mb-12">
+                                <div class="content">
+                                    <ul class="clearfix">
+                                                            <li><a href="/city/index.php">О городе</a></li>
+                                                <li><a href="/city/citizens/">Почетные граждане</a></li>
+                                                <li><a href="/city/streets/">Улицы города</a></li>
+                                                <li><a href="/videogallery/">Видеогалерея</a></li>
+                                                <li><a href="/city/city-charter/">Устав города</a></li>
+                                                <li><a href="/city/symbols/">Символика и награды</a></li>
+                                                <li><a href="/city/monuments/">Памятники, достопримечательности</a></li>
+                                                <li><a href="/photogallery/">Фотогалерея</a></li>
+                                                <li><a href="/city/general-plan/">Генеральный план округа</a></li>
+                                                <li><a href="/city/facts/">Интересные факты из летописи</a></li>
+                                                <li><a href="/tablo/">Информационное табло</a></li>
+                                                <li><a href="/opendata/">Портал открытых данных</a></li>
+                                        </ul></div></div></div></div></li>
+                                            <li class="parent">
+                    <a tabindex="1" href="/power/">Муниципалитет</a>
+                    <div class="second-level container">
+                        <div class="content">
+                            <div class="col col-mb-12">
+                                <div class="content">
+                                    <ul class="clearfix">
+                                                            <li><a href="/power#">Глава города</a></li>
+                                                <li><a href="/power/control-accounts">Контрольно-счетная палата</a></li>
+                                                <li><a href="/power/youth_parliament">Молодежный парламент</a></li>
+                                                <li><a href="/city/public_organization/">Общественные объединения</a></li>
+                                                <li><a href="/power/council/">Городской Совет депутатов</a></li>
+                                                <li><a href="/power/tik">Избирательная комиссия</a></li>
+                                                <li><a href="/power/youth_board">Молодежная коллегия</a></li>
+                                                <li><a href="/power/personnel-policy">Кадровая политика</a></li>
+                                                <li><a href="/power/administration">Администрация</a></li>
+                                                <li><a href="/power/administrative-commissions">Административные комиссии</a></li>
+                                                <li><a href="/power/public_chamber">Местная общественная палата</a></li>
+                                                <li><a href="/power/administration/Subdivisions/personal/award_policy.php">Наградная политика</a></li>
+                                        </ul></div></div></div></div></li>
+                                            <li class="parent">
+                    <a tabindex="1" href="/areas-of-work/">Направления работы</a>
+                    <div class="second-level container">
+                        <div class="content">
+                            <div class="col col-mb-12">
+                                <div class="content">
+                                    <ul class="clearfix">
+                                                            <li><a href="/areas-of-work/municipal-services/">Муниципальные услуги</a></li>
+                                                <li><a href="/areas-of-work/landscaping/">Благоустройство и экология</a></li>
+                                                <li><a href="/areas-of-work/housing-communal-services/">Городское хозяйство</a></li>
+                                                <li><a href="/areas-of-work/architecture-and-planning/">Архитектура и градостроительство</a></li>
+                                                <li><a href="/areas-of-work/economics-and-finance/">Экономика, финансы, бизнес</a></li>
+                                                <li><a href="/areas-of-work/organizations/">Предприятия и организации</a></li>
+                                                <li><a href="/areas-of-work/land-and-property/">Земля и имущество</a></li>
+                                                <li><a href="/areas-of-work/safety/">Безопасность и правопорядок</a></li>
+                                                <li><a href="/areas-of-work/education/">Образование</a></li>
+                                                <li><a href="/areas-of-work/culture/">Культура и искусство</a></li>
+                                                <li><a href="/areas-of-work/tourism/">Туризм</a></li>
+                                                <li><a href="/areas-of-work/sport/">Спорт</a></li>
+                                        </ul></div></div></div></div></li>
+                                            <li class="parent">
+                    <a tabindex="1" href="/docs/">Документы</a>
+                    <div class="second-level container">
+                        <div class="content">
+                            <div class="col col-mb-12">
+                                <div class="content">
+                                    <ul class="clearfix">
+                                                            <li><a href="/docs/chapter-regulations/">Постановления Главы</a></li>
+                                                <li><a href="/docs/NGSD-solutions/">Решения НГСД</a></li>
+                                                <li><a href="/docs/administration-decrees/">Постановления Администрации</a></li>
+                                                <li><a href="/docs/public-hearings/">Публичные слушания</a></li>
+                                                <li><a href="/docs/chapter-orders/">Распоряжения Главы</a></li>
+                                                <li><a href="/docs/NGSD-orders/">Распоряжения НГСД</a></li>
+                                                <li><a href="/docs/administration-orders/">Распоряжения Администрации</a></li>
+                                                <li><a href="/docs/zaklyucheniya/">Итоги публичных слушаний</a></li>
+                                                <li><a href="/docs/doklady/">Доклады</a></li>
+                                                <li><a href="/docs/ngsd_projects/">Проекты решений НГСД</a></li>
+                                                <li><a href="/docs/public-discussion/">Общественное обсуждение</a></li>
+                                                <li><a href="/docs/regulatory-impact-assessment/">Оценка регулирующего воздействия</a></li>
+                                                <li><a href="/docs/joint-solutions/">Совместные решения</a></li>
+                                                <li><a href="/docs/mun_checking/">Муниципальный контроль</a></li>
+                                                <li><a href="/docs/anticorruption-expertise/">Антикоррупционная экспертиза</a></li>
+                                                <li><a href="/docs/independent-expertise/">Независимая экспертиза</a></li>
+                                        </ul></div></div></div></div></li>
+                                            <li class="parent">
+                    <a tabindex="1" href="/feedback/">Прием граждан</a>
+                    <div class="second-level container">
+                        <div class="content">
+                            <div class="col col-mb-12">
+                                <div class="content">
+                                    <ul class="clearfix">
+                                                            <li><a href="/feedback2/">Интернет-приемная</a></li>
+                                                <li><a href="/feedback2/information-about-appeals/index.php">Ответы на обращения граждан</a></li>
+                                                <li><a href="/feedback2/reception_governor/">Приемная Губернатора</a></li>
+                                                <li><a href="/power/administration/Subdivisions/uoido/appointment.php"> Запись в Управление образования</a></li>
+                                                <li><a href=""> </a></li>
+                                                <li><a href="/feedback2/review_appeals.php"> Обзор обращений граждан</a></li>
+                                                <li><a href="/feedback2/reception_head/">Прием граждан должностными лицами</a></li>
+                                                <li><a href="/power/administration/Subdivisions/hf/contacts_hf.php">Запись на прием в Жилфонд</a></li>
+                                        </ul></div></div></div></div></li>
+                                            <li class="parent">
+                    <a tabindex="1" href="/participate/">Принять участие</a>
+                    <div class="second-level container">
+                        <div class="content">
+                            <div class="col col-mb-12">
+                                <div class="content">
+                                    <ul class="clearfix">
+                                                            <li><a href="/participate/#">События культуры и спорта</a></li>
+                                                <li><a href="/participate/polls/?VOTE_ID=1">Опросы, анкетирование</a></li>
+                                                <li><a href="/participate/projects/">Конкурсы, проекты, инновации</a></li>
+                                </ul></div></div></div></div></li>
+        </ul>
+					</div> <!-- .top-nav-block -->
+				</div> <!-- .col col-mb-hide col-12 -->
+			</div>
+		</div> <!-- .container container-top-navigation -->	
+
+	</header>
+
+						
+	<div class="container container-main col-margin-top">
+		<div class="content">
+							<div class="col col-mb-12 col-3 ">
+															
+					
+					
+					<!--'start_frame_cache_y0XwfU'--><!--'end_frame_cache_y0XwfU'-->	                
+	            </div>
+                        
+            
+						<div class="col col-mb-12 col-12 col-margin-bottom" style='float:right;'>
+				<div class="content">
+											<div class="col col-12"><div class="breadcrumb"><ul><li><a href="/" title="Главная">Главная</a></li><li><span class="crumb_marker">&rsaquo;</span></li><li><a href="/weather/" title="Погода и сообщения ГОиЧС">Погода и сообщения ГОиЧС</a></li></ul></div></div>						<div class="col col-mb-12 col-margin-bottom">
+							<h1>Погода и сообщения ГОиЧС</h1>
+						</div>
+									</div>
+                
+
+<div class="white-box padding-box "><p style="text-align: justify;">
+	</p><p style="text-align: justify;"></p><p style="text-align: justify;"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;, Times;">
+</span></p><p style="text-align: justify;"><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;, Times;">
+</span></p><p style="text-align: justify;"><span style="color: #ff0000; font-family: &quot;Times New Roman&quot;, Times;"><b><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;, Times;">06.08.2026&nbsp;</span></b></span></p><p style="text-align: justify;"></p><p style="text-align: justify;"><b><span style="font-size: 12pt; font-family: &quot;Times New Roman&quot;, Times;"><span style="font-family: &quot;Times New Roman&quot;, Times;">ИНФОРМАЦИЯ ОБ АКТИРОВКАХ</span><br /></span></b></p>
+<p style="text-align: justify;">
+</p>
+<p style="text-align: justify;">
+<p style="text-align: justify;">
+</p>
+<p style="text-align: justify;">
+<p style="text-align: justify;">
+</p>
+</p>
+<p style="text-align: justify;"><span style="font-family: &quot;Times New Roman&quot;, Times; font-size: 12pt;">В соответствии с предоставленной метеорологической информацией Таймырским ЦГМС – филиалом ФГБУ «СУГМС» о фактической погоде по состоянию на 11:00 25.11.2026, с прогнозом погоды на 25.11.2026, руководствуясь Графиком определения погодных условий, для обучающихся 2-ой смены образовательных учреждений городского округа город Норильск актировки нет.</span></p>
+</p>
+</p>
+<p style="text-align: justify;"><span style="font-family: &quot;Times New Roman&quot;, Times;"></span></p>
+<p style="text-align: justify;">
+<p style="text-align: justify;">
+<table class="table table-striped text-center" border="3" cellpadding="2" cellspacing="2">
+<tbody>
+<tr>
+<td style="text-align: justify;"><span style="font-family: &quot;Times New Roman&quot;, Times;"> <span style="font-size: 12pt;">Центральный район </span></span></td>
+<td style="text-align: justify;"><span style="font-family: &quot;Times New Roman&quot;, Times; font-size: 12pt;"> нет    </span></td>
+</tr>
+<tr>
+<td style="text-align: justify;"><span style="font-family: &quot;Times New Roman&quot;, Times; font-size: 12pt;"> ж/о Оганер </span></td>
+<td style="text-align: justify;"><span style="font-family: &quot;Times New Roman&quot;, Times; font-size: 12pt;"> нет</span></td>
+</tr>
+<tr>
+<td style="text-align: justify;"><span style="font-family: &quot;Times New Roman&quot;, Times; font-size: 12pt;"> район Талнах </span></td>
+<td style="text-align: justify;"><span style="font-family: &quot;Times New Roman&quot;, Times; font-size: 12pt;"> нет</span></td>
+</tr>
+<tr>
+<td style="text-align: justify;"><span style="font-family: &quot;Times New Roman&quot;, Times; font-size: 12pt;"> район Кайеркан </span></td>
+<td style="text-align: justify;"><span style="font-family: &quot;Times New Roman&quot;, Times; font-size: 12pt;"> нет</span></td>
+</tr>
+</tbody>
+</table><p style="text-align: justify;"><span style="font-family: &quot;Times New Roman&quot;, Times; font-size: 12pt;">Возобновлен свободный доступ к информационному каналу «Актировка Норильск» в мессенджере МАХ.</span></p><p style="text-align: justify;"><b style="font-family: &quot;Times New Roman&quot;, Times;"><span style="font-size: 12pt;"><p>ИНФОРМАЦИЯ О ПОГОДЕ</p><p>Прогноз погоды на 26.11.2026.</p></div></body></html>
