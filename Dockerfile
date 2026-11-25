@@ -9,7 +9,7 @@ WORKDIR /app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY main.py config.py parser.py get_ids.py ./
+COPY main.py config.py parser.py admin.py get_ids.py ./
 RUN mkdir -p /app/data
 
 CMD ["python", "-u", "main.py"]
